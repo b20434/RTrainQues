@@ -1,0 +1,945 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>114年住院醫師整體教學滿意度調查 - 分析報告</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg: #f5f0eb;
+            --card: #ffffff;
+            --border: #ddd5cc;
+            --text: #4a4543;
+            --text2: #6b6462;
+            --text3: #9e9590;
+            /* Morandi palette */
+            --m-sage: #8ea58c;
+            --m-sage-l: #dbe6d6;
+            --m-dusty-rose: #c4a0a0;
+            --m-dusty-rose-l: #f0dede;
+            --m-lavender: #9b8db5;
+            --m-lavender-l: #e3dced;
+            --m-clay: #c4a882;
+            --m-clay-l: #f0e4d4;
+            --m-steel: #7e909a;
+            --m-steel-l: #d8e0e5;
+            --m-mauve: #b8889b;
+            --m-mauve-l: #eed8e2;
+            --m-olive: #9b9b6e;
+            --m-olive-l: #e6e6d2;
+            --m-cocoa: #a08070;
+            --m-cocoa-l: #e8d8d0;
+            --m-slate: #8a8d8e;
+            --m-slate-l: #dfe0e0;
+            --m-denim: #7b8fa1;
+            --m-denim-l: #d4dde5;
+            --m-blush: #d4a5a5;
+            --m-blush-l: #f5e0e0;
+            --m-moss: #7d9a7e;
+            --m-moss-l: #d5e5d6;
+            --m-plum: #9e7b96;
+            --m-plum-l: #e5d5e0;
+            --m-sand: #c9b99a;
+            --m-sand-l: #efe8da;
+            --m-teal: #6d9e9e;
+            --m-teal-l: #d0e5e5;
+            --m-brick: #b5856b;
+            --m-brick-l: #ecddd2;
+            --shadow: 0 2px 12px rgba(74, 69, 67, 0.06);
+            --shadow2: 0 4px 20px rgba(74, 69, 67, 0.1);
+            --r: 18px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #8ea58c 0%, #9b8db5 35%, #c4a0a0 65%, #c4a882 100%);
+            padding: 60px 24px 50px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: var(--bg);
+            border-radius: 50% 50% 0 0/100% 100% 0 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.6rem, 5vw, 2.6rem);
+            font-weight: 900;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+        }
+
+        .hero .sub {
+            font-size: clamp(0.85rem, 2vw, 1.05rem);
+            opacity: 0.92;
+            font-weight: 300;
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: center;
+            gap: clamp(12px, 3vw, 32px);
+            margin-top: 20px;
+            flex-wrap: wrap;
+            font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+            opacity: 0.88;
+        }
+
+        .meta-row span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 16px 60px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: -30px 0 32px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .kpi {
+            background: var(--card);
+            border-radius: var(--r);
+            padding: 24px;
+            box-shadow: var(--shadow2);
+            border-top: 4px solid;
+            transition: transform .3s;
+            text-align: center;
+        }
+
+        .kpi:hover {
+            transform: translateY(-4px);
+        }
+
+        .kpi .label {
+            font-size: 0.8rem;
+            color: var(--text3);
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .kpi .val {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 900;
+        }
+
+        .kpi .desc {
+            font-size: 0.75rem;
+            color: var(--text3);
+            margin-top: 4px;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: var(--r);
+            padding: clamp(16px, 3vw, 28px);
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: clamp(1rem, 2.5vw, 1.35rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .g2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+            gap: 20px;
+        }
+
+        .g3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            gap: 16px;
+        }
+
+        .g4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+            gap: 12px;
+        }
+
+        .bar-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .bar-row .lbl {
+            min-width: 80px;
+            text-align: right;
+            font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+            color: var(--text2);
+            flex-shrink: 0;
+        }
+
+        .bar-row .track {
+            flex: 1;
+            height: 32px;
+            background: #f0ebe6;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-row .fill {
+            height: 100%;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+            transition: width 1.2s ease;
+        }
+
+        .bar-row .num {
+            min-width: 40px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        @media(max-width:480px) {
+            .bar-row .lbl {
+                min-width: 60px;
+                font-size: 0.7rem;
+            }
+
+            .bar-row .fill {
+                font-size: 0.65rem;
+                padding: 0 6px;
+            }
+        }
+
+        .nps-flex {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(16px, 4vw, 40px);
+            flex-wrap: wrap;
+        }
+
+        .nps-big {
+            text-align: center;
+        }
+
+        .nps-big .score {
+            font-size: clamp(3rem, 10vw, 5rem);
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .nps-big .tag {
+            font-size: 0.85rem;
+            color: var(--text3);
+            margin-top: 4px;
+        }
+
+        .nps-bars {
+            display: flex;
+            gap: clamp(8px, 2vw, 16px);
+        }
+
+        .nps-seg {
+            text-align: center;
+            padding: clamp(10px, 2vw, 18px);
+            border-radius: 16px;
+            min-width: clamp(70px, 15vw, 100px);
+        }
+
+        .nps-seg .n {
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            font-weight: 800;
+        }
+
+        .nps-seg .p {
+            font-size: 0.8rem;
+            color: var(--text2);
+        }
+
+        .nps-seg .t {
+            font-size: 0.7rem;
+            margin-top: 2px;
+            font-weight: 600;
+        }
+
+        .nps-exp {
+            margin-top: 20px;
+            padding: 18px;
+            border-radius: 14px;
+            background: #faf7f4;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--text2);
+            line-height: 1.9;
+        }
+
+        .nps-formula {
+            margin-top: 14px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            background: #f0ebe6;
+            border: 1px dashed var(--m-cocoa);
+            font-size: 0.85rem;
+            color: var(--text);
+            line-height: 1.9;
+        }
+
+        .nps-formula .math {
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--m-sage);
+            background: #fff;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .growth-card {
+            padding: clamp(14px, 2vw, 22px);
+            border-radius: 16px;
+            text-align: center;
+            border: 2px solid var(--border);
+        }
+
+        .growth-card .emoji {
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            margin-bottom: 4px;
+        }
+
+        .growth-card .cnt {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 900;
+        }
+
+        .growth-card .pct {
+            font-size: 0.8rem;
+            color: var(--text3);
+        }
+
+        .growth-card .nm {
+            font-size: clamp(0.7rem, 1.5vw, 0.82rem);
+            color: var(--text2);
+            margin-top: 2px;
+        }
+
+        .tbl {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+        }
+
+        .tbl th {
+            padding: 10px 12px;
+            text-align: left;
+            background: linear-gradient(135deg, var(--m-sage), var(--m-steel));
+            color: white;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .tbl th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        .tbl th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+
+        .tbl td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tbl tr:hover td {
+            background: #faf7f4;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .b-green {
+            background: var(--m-sage-l);
+            color: #4a6b48;
+        }
+
+        .b-yellow {
+            background: var(--m-clay-l);
+            color: #7a5c30;
+        }
+
+        .b-red {
+            background: var(--m-dusty-rose-l);
+            color: #8b4545;
+        }
+
+        .fb {
+            padding: clamp(12px, 2vw, 16px);
+            border-radius: 14px;
+            background: #faf7f4;
+            border-left: 4px solid;
+            margin-bottom: 10px;
+            font-size: clamp(0.78rem, 1.5vw, 0.88rem);
+            color: var(--text2);
+            line-height: 1.7;
+        }
+
+        .fb .dept {
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .tc {
+            padding: clamp(12px, 2vw, 16px);
+            border-radius: 14px;
+            border: 2px solid var(--border);
+            transition: transform .2s, box-shadow .2s;
+            background: #faf7f4;
+        }
+
+        .tc:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow2);
+        }
+
+        .tc .name {
+            font-weight: 700;
+            font-size: clamp(0.85rem, 1.8vw, 1rem);
+            margin-bottom: 2px;
+        }
+
+        .tc .reason {
+            font-size: clamp(0.75rem, 1.4vw, 0.83rem);
+            color: var(--text2);
+        }
+
+        .tc .from {
+            font-size: 0.7rem;
+            color: var(--text3);
+            margin-top: 4px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 32px 16px;
+            color: var(--text3);
+            font-size: 0.75rem;
+            border-top: 1px solid var(--border);
+            margin-top: 32px;
+        }
+
+        canvas {
+            max-height: 380px;
+        }
+
+        .overflow-x {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero">
+        <h1>114年住院醫師整體教學滿意度調查</h1>
+        <p class="sub">奇美醫療財團法人奇美醫院 教學部</p>
+        <div class="meta-row">
+            <span>📋 有效問卷：73 份</span>
+            <span>🏥 涵蓋科部：19 科</span>
+            <span>📅 調查期間：114年1月9日 – 3月5日</span>
+            <span>📊 報告產出日期：114年3月5日</span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="kpi-grid">
+            <div class="kpi" style="border-color:var(--m-sage)">
+                <div class="label">整體滿意度均分</div>
+                <div class="val" style="color:var(--m-sage)">4.50</div>
+                <div class="desc">滿分 5.0 ｜ 17 項構面平均</div>
+            </div>
+            <div class="kpi" style="border-color:var(--m-lavender)">
+                <div class="label">推薦意願指數</div>
+                <div class="val" style="color:var(--m-lavender)">+32.9</div>
+                <div class="desc">願意推薦 47.9% ｜ 中立 37.0%</div>
+            </div>
+            <div class="kpi" style="border-color:var(--m-clay)">
+                <div class="label">正向成長感受</div>
+                <div class="val" style="color:var(--m-clay)">83.6%</div>
+                <div class="desc">「顯著成長」+「Top 10%」</div>
+            </div>
+            <div class="kpi" style="border-color:var(--m-dusty-rose)">
+                <div class="label">最高分構面</div>
+                <div class="val" style="font-size:clamp(1.2rem,3vw,1.6rem);color:var(--m-dusty-rose)">資深指導 4.68</div>
+                <div class="desc">75.3% 給予「非常滿意」</div>
+            </div>
+        </div>
+
+        <!-- 17項 -->
+        <div class="card">
+            <h2 class="card-title"><span style="color:var(--m-sage)">📊</span> 17項教學構面滿意度分析</h2>
+            <p style="font-size:0.8rem;color:var(--text3);margin-bottom:16px;">
+                每項以 1–5 分評量（1＝非常不滿意，5＝非常滿意）。長條圖內的<b>「給予5分人數」</b>代表在該項目中勾選「5 分（非常滿意）」的填答者人數，如<b>「55人給予5分」</b>即表示 73
+                位填答者中有 55 人對該項目感到非常滿意。
+            </p>
+            <div id="barList"></div>
+        </div>
+
+        <!-- Charts -->
+        <div class="g2">
+            <div class="card">
+                <h3 class="card-title"><span style="color:var(--m-lavender)">🕸️</span> 各構面滿意度雷達圖</h3>
+                <canvas id="radarChart"></canvas>
+            </div>
+            <div class="card">
+                <h3 class="card-title"><span style="color:var(--m-mauve)">🏥</span> 各科部填答分佈</h3>
+                <canvas id="deptChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 推薦意願 -->
+        <div class="card">
+            <h2 class="card-title"><span style="color:var(--m-sage)">🎯</span> 推薦意願指數分析</h2>
+            <div class="nps-exp">
+                <strong>什麼是「推薦意願指數」？</strong><br>
+                以 0–10 分詢問住院醫師：「您有多願意推薦本院的教學訓練給同儕？」<br>
+                ・<b style="color:var(--m-sage)">願意推薦（9–10 分）</b>：對教學訓練高度認同，會主動向同儕推薦。<br>
+                ・<b style="color:var(--m-clay)">中立 / 考慮中（7–8 分）</b>：整體尚可，但不會主動推薦。<br>
+                ・<b style="color:var(--m-dusty-rose)">不太推薦（0–6 分）</b>：對教學訓練有較多不滿或保留。<br>
+                <b>推薦意願指數 ＝ 願意推薦比例 − 不太推薦比例</b>，範圍 −100 ~ +100；分數越高代表整體口碑越好。
+            </div>
+            <div class="nps-formula">
+                <strong>📐 本次計算方式：</strong><br>
+                ・ 願意推薦（9–10分）＝ <span class="math">35 人</span>，佔比 = 35 ÷ 73 = <span class="math">47.9%</span><br>
+                ・ 中立（7–8分）＝ <span class="math">27 人</span>，佔比 = 27 ÷ 73 = <span class="math">37.0%</span>（不計入計算）<br>
+                ・ 不太推薦（0–6分）＝ <span class="math">11 人</span>，佔比 = 11 ÷ 73 = <span class="math">15.1%</span><br>
+                ・ <b>推薦意願指數 ＝ 47.9% − 15.1% ＝ <span class="math"
+                        style="font-size:1rem;color:var(--m-sage)">+32.9</span></b>　　屬於<b
+                    style="color:var(--m-sage)">正向良好</b>水準 ✓
+            </div>
+            <div class="nps-flex" style="margin-top:24px;">
+                <div class="nps-big">
+                    <div class="score" style="color:var(--m-sage)">+32.9</div>
+                    <div class="tag">推薦意願指數</div>
+                </div>
+                <div class="nps-bars">
+                    <div class="nps-seg" style="background:var(--m-sage-l);">
+                        <div class="n" style="color:var(--m-sage)">35</div>
+                        <div class="p">47.9%</div>
+                        <div class="t" style="color:var(--m-sage)">願意推薦</div>
+                    </div>
+                    <div class="nps-seg" style="background:var(--m-clay-l);">
+                        <div class="n" style="color:var(--m-clay)">27</div>
+                        <div class="p">37.0%</div>
+                        <div class="t" style="color:var(--m-clay)">中立</div>
+                    </div>
+                    <div class="nps-seg" style="background:var(--m-dusty-rose-l);">
+                        <div class="n" style="color:var(--m-dusty-rose)">11</div>
+                        <div class="p">15.1%</div>
+                        <div class="t" style="color:var(--m-dusty-rose)">不太推薦</div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:20px;"><canvas id="npsChart" height="60"></canvas></div>
+        </div>
+
+        <!-- 成長感受 -->
+        <div class="card">
+            <h2 class="card-title"><span style="color:var(--m-moss)">🌱</span> 自我成長感受</h2>
+            <div class="g4">
+                <div class="growth-card" style="border-color:var(--m-sage);background:var(--m-sage-l);">
+                    <div class="emoji">🚀</div>
+                    <div class="cnt" style="color:var(--m-sage)">15</div>
+                    <div class="pct">20.5%</div>
+                    <div class="nm">成長幅度很大 (Top 10%)</div>
+                </div>
+                <div class="growth-card" style="border-color:var(--m-denim);background:var(--m-denim-l);">
+                    <div class="emoji">📈</div>
+                    <div class="cnt" style="color:var(--m-denim)">46</div>
+                    <div class="pct">63.0%</div>
+                    <div class="nm">有顯著成長</div>
+                </div>
+                <div class="growth-card" style="border-color:var(--m-clay);background:var(--m-clay-l);">
+                    <div class="emoji">➡️</div>
+                    <div class="cnt" style="color:var(--m-clay)">11</div>
+                    <div class="pct">15.1%</div>
+                    <div class="nm">普通</div>
+                </div>
+                <div class="growth-card" style="border-color:var(--m-dusty-rose);background:var(--m-dusty-rose-l);">
+                    <div class="emoji">⚠️</div>
+                    <div class="cnt" style="color:var(--m-dusty-rose)">1</div>
+                    <div class="pct">1.4%</div>
+                    <div class="nm">成長有限</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 職級 -->
+        <div class="g2">
+            <div class="card">
+                <h3 class="card-title"><span style="color:var(--m-steel)">👥</span> 各職級整體滿意度</h3><canvas
+                    id="rankChart"></canvas>
+            </div>
+            <div class="card">
+                <h3 class="card-title"><span style="color:var(--m-lavender)">📣</span> 各職級推薦意願分數</h3><canvas
+                    id="rankNpsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 科部排名 -->
+        <div class="card">
+            <h2 class="card-title"><span style="color:var(--m-clay)">🏆</span> 各科部滿意度排名</h2>
+            <div class="overflow-x">
+                <table class="tbl">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>科部</th>
+                            <th>人數</th>
+                            <th>均分</th>
+                            <th>等級</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deptTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 推薦教師 -->
+        <div class="card">
+            <h2 class="card-title"><span style="color:var(--m-mauve)">⭐</span> 受推薦教師名單</h2>
+            <div class="g3" id="teacherGrid"></div>
+        </div>
+
+        <!-- 意見回饋 -->
+        <div class="card">
+            <h2 class="card-title"><span style="color:var(--m-cocoa)">💬</span> 質性意見回饋摘要</h2>
+            <div class="g2">
+                <div>
+                    <h4 style="color:var(--m-clay);margin-bottom:10px;">💰 薪資與福利（最多人提及）</h4>
+                    <div class="fb" style="border-color:var(--m-clay)">
+                        <div class="dept" style="color:var(--m-clay)">內科部</div>福利制度，因為早在5年前雙和醫院就開出160-180的年薪。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-clay)">
+                        <div class="dept" style="color:var(--m-clay)">內科部</div>增加福利制度，增加來奇美的誘因，避免進入惡性循環。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-clay)">
+                        <div class="dept" style="color:var(--m-clay)">麻醉部</div>住院醫師薪水跟5年前沒有顯著差別，雞排都從70到120了。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-clay)">
+                        <div class="dept" style="color:var(--m-clay)">家醫部</div>薪水、臨床工作及業務量不斷擴增，人力跟薪資卻沒有跟上。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-clay)">
+                        <div class="dept" style="color:var(--m-clay)">外科部</div>錢；薪資內容不清楚；福利制度。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-clay)">
+                        <div class="dept" style="color:var(--m-clay)">贋復科</div>福利制度、薪資。
+                    </div>
+                </div>
+                <div>
+                    <h4 style="color:var(--m-dusty-rose);margin-bottom:10px;">🏢 行政流程與制度</h4>
+                    <div class="fb" style="border-color:var(--m-dusty-rose)">
+                        <div class="dept" style="color:var(--m-dusty-rose)">內科部</div>廢掉內科部部總制度，多請助理。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-dusty-rose)">
+                        <div class="dept" style="color:var(--m-dusty-rose)">外科部</div>行政流程，不要一個單位推托給另一個單位。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-dusty-rose)">
+                        <div class="dept" style="color:var(--m-dusty-rose)">牙周病科</div>希望行程助理可以多分擔一些事情，而不是都丟給總醫師做。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-dusty-rose)">
+                        <div class="dept" style="color:var(--m-dusty-rose)">精神醫學部</div>科內的行政業務分配。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-dusty-rose)">
+                        <div class="dept" style="color:var(--m-dusty-rose)">外科部 R2</div>
+                        住院醫師參加國內外醫學會議補助制度需改善，R1-R2面臨補助斷層。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-dusty-rose)">
+                        <div class="dept" style="color:var(--m-dusty-rose)">外科部</div>一人補助一台公務機，一流的醫學中心都有。
+                    </div>
+                </div>
+            </div>
+            <div class="g2" style="margin-top:16px;">
+                <div>
+                    <h4 style="color:var(--m-teal);margin-bottom:10px;">📚 教學與訓練</h4>
+                    <div class="fb" style="border-color:var(--m-teal)">
+                        <div class="dept" style="color:var(--m-teal)">內科部</div>住院醫師的教學績效希望能獨立評估，並給予相對應的經費支持。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-teal)">
+                        <div class="dept" style="color:var(--m-teal)">牙科PGY</div>教學內容：限制看診代住院醫師執行臨床操作。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-teal)">
+                        <div class="dept" style="color:var(--m-teal)">牙科PGY</div>Paper work 少一點，很多作業其實只是流於形式，對學習沒幫助。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-teal)">
+                        <div class="dept" style="color:var(--m-teal)">復健部</div>住院醫師有論文發表要給獎勵（目前規定論文獎金只發給主治醫師）。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-teal)">
+                        <div class="dept" style="color:var(--m-teal)">外科部</div>臨床專師人手不夠。
+                    </div>
+                </div>
+                <div>
+                    <h4 style="color:var(--m-lavender);margin-bottom:10px;">🏗️ 其他建議</h4>
+                    <div class="fb" style="border-color:var(--m-lavender)">
+                        <div class="dept" style="color:var(--m-lavender)">耳鼻喉科</div>希望院內有7-11或全家。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-lavender)">
+                        <div class="dept" style="color:var(--m-lavender)">放射診斷科</div>三院區PACS合併。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-lavender)">
+                        <div class="dept" style="color:var(--m-lavender)">麻醉部</div>國訂假日值班給補休；希望可以跟內外科一樣加薪。
+                    </div>
+                    <div class="fb" style="border-color:var(--m-lavender)">
+                        <div class="dept" style="color:var(--m-lavender)">急診醫學部</div>社區course可以去其他醫院而非分院上班。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 總結 -->
+        <div class="card">
+            <h2 class="card-title"><span style="color:var(--m-sage)">📝</span> 總結與建議</h2>
+            <div class="g3">
+                <div style="padding:20px;border-radius:16px;background:var(--m-sage-l);border:2px solid var(--m-sage);">
+                    <h4 style="color:var(--m-sage);margin-bottom:10px;">✅ 優勢項目</h4>
+                    <ul style="list-style:none;font-size:0.85rem;color:var(--text2);line-height:2;">
+                        <li>• 資深指導（4.68）與跨領域合作（4.64）最佳</li>
+                        <li>• 導師制度（4.62）與具體回饋（4.63）高度肯定</li>
+                        <li>• 83.6% 受訪者感到顯著以上之成長</li>
+                        <li>• 推薦意願指數 +32.9，屬正向良好</li>
+                        <li>• 38位教師獲學員主動推薦</li>
+                    </ul>
+                </div>
+                <div
+                    style="padding:20px;border-radius:16px;background:var(--m-dusty-rose-l);border:2px solid var(--m-dusty-rose);">
+                    <h4 style="color:var(--m-dusty-rose);margin-bottom:10px;">⚠️ 待改善項目</h4>
+                    <ul style="list-style:none;font-size:0.85rem;color:var(--text2);line-height:2;">
+                        <li>• 資訊系統（4.12）為最低分，需強化數位工具</li>
+                        <li>• 行政效率（4.37）與模擬訓練（4.37）待提升</li>
+                        <li>• 牙科PGY 整體滿意度偏低（3.57），需關注</li>
+                        <li>• 薪資福利為最多人反映之議題</li>
+                        <li>• 行政流程繁瑣、跨單位協調需改善</li>
+                    </ul>
+                </div>
+                <div
+                    style="padding:20px;border-radius:16px;background:var(--m-denim-l);border:2px solid var(--m-denim);">
+                    <h4 style="color:var(--m-denim);margin-bottom:10px;">💡 行動建議</h4>
+                    <ul style="list-style:none;font-size:0.85rem;color:var(--text2);line-height:2;">
+                        <li>• 檢討住院醫師薪資結構與福利制度之競爭力</li>
+                        <li>• 簡化行政流程，減少非教學行政負擔</li>
+                        <li>• 強化資訊系統整合（如三院區PACS合併）</li>
+                        <li>• 增設住院醫師學術發展基金，涵蓋R1-R2</li>
+                        <li>• 針對牙科PGY 進行深入訪談了解需求</li>
+                        <li>• 研議論文獎金開放住院醫師申請</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>114年住院醫師整體教學滿意度調查分析報告 ｜ 奇美醫療財團法人奇美醫院 教學部</p>
+        <p>報告自動產生於 2026年3月5日 ｜ 資料更新至 73 份有效問卷</p>
+    </div>
+
+    <script>
+        Chart.defaults.font.family = "'Noto Sans TC',sans-serif";
+        Chart.defaults.color = '#6b6462';
+
+        const qLabels = ['學習目標', '直接觀察', '具體回饋', '授權層級', '評估機制', '資深指導', '全人醫療', '跨領域合作', '病歷寫作', '工時平衡', '心理安全', '職場友善', '導師制度', '行政效率', '資訊系統', '實證資源', '模擬訓練'];
+        const qAvgs = [4.56, 4.53, 4.63, 4.60, 4.40, 4.68, 4.51, 4.64, 4.48, 4.48, 4.56, 4.51, 4.62, 4.37, 4.12, 4.49, 4.37];
+        const q5 = [49, 48, 52, 49, 44, 55, 43, 54, 44, 47, 49, 47, 51, 42, 35, 47, 40];
+
+        // Morandi bar colors
+        const mColors = ['#8ea58c', '#7d9a7e', '#6d9e9e', '#7b8fa1', '#9b8db5', '#b8889b', '#c4a0a0', '#c4a882', '#9b9b6e', '#a08070', '#8a8d8e', '#9e7b96', '#b5856b', '#c9b99a', '#7e909a', '#c4a0a0', '#8ea58c'];
+
+        const barEl = document.getElementById('barList');
+        const sorted = qLabels.map((l, i) => ({ l, a: qAvgs[i], c: q5[i] })).sort((a, b) => b.a - a.a);
+        sorted.forEach((item, i) => {
+            const pct = (item.a / 5 * 100).toFixed(1);
+            const c = mColors[i % mColors.length];
+            barEl.innerHTML += `<div class="bar-row"><div class="lbl">${item.l}</div><div class="track"><div class="fill" style="width:${pct}%;background:${c};">${item.c}人給予5分</div></div><div class="num" style="color:${c}">${item.a}</div></div>`;
+        });
+
+        // Radar
+        new Chart(document.getElementById('radarChart'), {
+            type: 'radar',
+            data: { labels: qLabels, datasets: [{ label: '平均分', data: qAvgs, backgroundColor: 'rgba(155,141,181,0.15)', borderColor: '#9b8db5', borderWidth: 2, pointBackgroundColor: '#9b8db5', pointRadius: 4 }] },
+            options: { scales: { r: { min: 3.5, max: 5, ticks: { stepSize: 0.5, color: '#9e9590' }, grid: { color: '#ddd5cc' }, angleLines: { color: '#ddd5cc' }, pointLabels: { font: { size: 11 }, color: '#6b6462' } } }, plugins: { legend: { display: false } } }
+        });
+
+        // Dept pie - all 19 departments
+        const deptD = [
+            { n: '內科部', v: 18 }, { n: '家庭醫學部', v: 9 }, { n: '外科部', v: 9 }, { n: '麻醉部', v: 7 },
+            { n: '牙醫一般科', v: 5 }, { n: '放射診斷科', v: 4 }, { n: '骨科部', v: 3 }, { n: '眼科部', v: 3 },
+            { n: '耳鼻喉科部', v: 2 }, { n: '精神醫學部', v: 2 }, { n: '中醫部', v: 2 }, { n: '復健部', v: 2 },
+            { n: '牙周病科', v: 1 }, { n: '口腔顎面外科', v: 1 }, { n: '急診醫學部', v: 1 }, { n: '兒科部', v: 1 },
+            { n: '齒顎矯正科', v: 1 }, { n: '贋復科', v: 1 }, { n: '解剖病理部', v: 1 }
+        ];
+        new Chart(document.getElementById('deptChart'), {
+            type: 'doughnut',
+            data: {
+                labels: deptD.map(d => `${d.n} (${d.v}人)`),
+                datasets: [{
+                    data: deptD.map(d => d.v),
+                    backgroundColor: [
+                        '#9b8db5', '#8ea58c', '#c4a882', '#c4a0a0', '#b8889b', '#6d9e9e', '#b5856b', '#9b9b6e',
+                        '#7e909a', '#a08070', '#7b8fa1', '#9e7b96', '#c9b99a', '#d4a5a5', '#7d9a7e', '#8a8d8e',
+                        '#b8a9c9', '#c4b896', '#a3b5c4'
+                    ],
+                    borderWidth: 2, borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { position: 'bottom', labels: { padding: 8, usePointStyle: true, font: { size: 10 }, color: '#6b6462' } },
+                    tooltip: { callbacks: { label: function (ctx) { return `${deptD[ctx.dataIndex].n}：${deptD[ctx.dataIndex].v} 人 (${(deptD[ctx.dataIndex].v / 73 * 100).toFixed(1)}%)`; } } }
+                }
+            }
+        });
+
+        // NPS bar
+        new Chart(document.getElementById('npsChart'), {
+            type: 'bar',
+            data: {
+                labels: ['推薦意願分佈'], datasets: [
+                    { label: '不太推薦 (0-6分)', data: [11], backgroundColor: '#d4a5a5' },
+                    { label: '中立 (7-8分)', data: [27], backgroundColor: '#c9b99a' },
+                    { label: '願意推薦 (9-10分)', data: [35], backgroundColor: '#8ea58c' }
+                ]
+            },
+            options: { indexAxis: 'y', scales: { x: { stacked: true, grid: { color: '#f0ebe6' } }, y: { stacked: true, display: false } }, plugins: { legend: { position: 'bottom', labels: { padding: 14, usePointStyle: true, color: '#6b6462' } } } }
+        });
+
+        // Rank charts
+        const rL = ['R1', 'R4以上', 'R3', '研究員', '總醫師', 'R2', '牙科PGY'];
+        const rA = [4.79, 4.76, 4.55, 4.51, 4.45, 4.39, 3.57];
+        const rN = [9.00, 8.60, 8.21, 8.33, 6.78, 8.07, 4.25];
+        const rC = rA.map(v => v >= 4.6 ? '#8ea58c' : v >= 4.4 ? '#9b8db5' : v >= 4.0 ? '#c4a882' : '#c4a0a0');
+
+        new Chart(document.getElementById('rankChart'), {
+            type: 'bar', data: { labels: rL, datasets: [{ label: '均分', data: rA, backgroundColor: rC, borderRadius: 8 }] },
+            options: { scales: { y: { min: 3, max: 5, grid: { color: '#f0ebe6' } }, x: { grid: { display: false } } }, plugins: { legend: { display: false } } }
+        });
+        new Chart(document.getElementById('rankNpsChart'), {
+            type: 'bar', data: { labels: rL, datasets: [{ label: '推薦分', data: rN, backgroundColor: rN.map(v => v >= 9 ? '#8ea58c' : v >= 7 ? '#9b8db5' : v >= 5 ? '#c4a882' : '#c4a0a0'), borderRadius: 8 }] },
+            options: { scales: { y: { min: 0, max: 10, grid: { color: '#f0ebe6' } }, x: { grid: { display: false } } }, plugins: { legend: { display: false } } }
+        });
+
+        // Dept table
+        const dT = [
+            { n: '骨科部', c: 3, a: 5.00 }, { n: '牙周病科', c: 1, a: 5.00 }, { n: '口腔顎面外科', c: 1, a: 5.00 }, { n: '急診醫學部', c: 1, a: 5.00 },
+            { n: '齒顎矯正科', c: 1, a: 4.94 }, { n: '家庭醫學部', c: 9, a: 4.75 }, { n: '放射診斷科', c: 4, a: 4.65 }, { n: '內科部', c: 18, a: 4.64 },
+            { n: '麻醉部', c: 7, a: 4.63 }, { n: '贋復科', c: 1, a: 4.59 }, { n: '精神醫學部', c: 2, a: 4.53 }, { n: '眼科部', c: 3, a: 4.51 },
+            { n: '耳鼻喉科部', c: 2, a: 4.47 }, { n: '外科部', c: 9, a: 4.29 }, { n: '復健部', c: 2, a: 4.24 }, { n: '中醫部', c: 2, a: 3.97 },
+            { n: '牙醫一般科', c: 5, a: 3.86 }, { n: '解剖病理部', c: 1, a: 3.29 }, { n: '兒科部', c: 1, a: 2.76 }
+        ];
+        const tb = document.getElementById('deptTable');
+        dT.forEach((d, i) => {
+            const cls = d.a >= 4.5 ? 'b-green' : d.a >= 4.0 ? 'b-yellow' : 'b-red';
+            const lv = d.a >= 4.5 ? '優良' : d.a >= 4.0 ? '良好' : '待改善';
+            tb.innerHTML += `<tr><td>${i + 1}</td><td>${d.n}</td><td>${d.c}</td><td><span class="badge ${cls}">${d.a.toFixed(2)}</span></td><td><span class="badge ${cls}">${lv}</span></td></tr>`;
+        });
+
+        // Teachers
+        const teachers = [
+            { n: '張敏德', r: '知識淵博，樂於教學', f: '口腔顎面外科', c: 'var(--m-clay)' },
+            { n: '簡志強', r: '教學認真負責，充滿熱忱；教學優', f: '內科部 (2次推薦)', c: 'var(--m-lavender)' },
+            { n: '林泱瀚', r: '泱瀚100分，完全是我的role model', f: '內科部', c: 'var(--m-lavender)' },
+            { n: '葉珀秀', r: '認真教學，每一步都是很紮實的臨床功力', f: '內科部', c: 'var(--m-lavender)' },
+            { n: '張庭嘉', r: '關心住院醫師身心狀況', f: '內科部', c: 'var(--m-lavender)' },
+            { n: '古關光浩', r: '熱情', f: '內科部', c: 'var(--m-lavender)' },
+            { n: '楊俊杰', r: '教學有熱忱，與醫療團隊互動良好', f: '內科部', c: 'var(--m-lavender)' },
+            { n: '楊翼寧', r: '熱心教學', f: '內科部', c: 'var(--m-lavender)' },
+            { n: '林慧娟', r: '指導看病人，還有做研究', f: '內科部', c: 'var(--m-lavender)' },
+            { n: '吳鴻昌', r: '教學認真，對臨床國考幫助巨大', f: '內科部', c: 'var(--m-lavender)' },
+            { n: '莊閔翔', r: '教學讚', f: '內科部', c: 'var(--m-lavender)' },
+            { n: '林哲毅', r: '教學認真', f: '牙醫一般科', c: 'var(--m-mauve)' },
+            { n: '王之昀', r: '很teaching，也會適當關心和鼓勵', f: '牙醫一般科', c: 'var(--m-mauve)' },
+            { n: '李芳欣', r: '教學熱忱', f: '牙醫一般科', c: 'var(--m-mauve)' },
+            { n: '曾文歆', r: '臨床積極教學，研究也給予充分指導；富教學熱忱', f: '外科部 (2次推薦)', c: 'var(--m-cocoa)' },
+            { n: '黃盈齊', r: '棒棒', f: '外科部', c: 'var(--m-cocoa)' },
+            { n: '李宗儒', r: '極具教學熱忱', f: '外科部', c: 'var(--m-cocoa)' },
+            { n: '林聿山', r: '看病人很仔細', f: '外科部', c: 'var(--m-cocoa)' },
+            { n: '盧致穎 / 王家豪', r: '具體且實際建議，願意承擔教學負擔', f: '外科部', c: 'var(--m-cocoa)' },
+            { n: '郭冠吾', r: '結合臨床與研究、樂於教學並分享', f: '耳鼻喉科部', c: 'var(--m-dusty-rose)' },
+            { n: '劉俊彥', r: '對病人很細心、熱心教學', f: '放射診斷科', c: 'var(--m-teal)' },
+            { n: '周昀', r: '熱心教學，關心住院醫師', f: '兒科部', c: 'var(--m-plum)' },
+            { n: '李國彰、林昱惠', r: '對住院醫師處置有仔細觀察且用心回饋', f: '急診醫學部', c: 'var(--m-brick)' },
+            { n: '李茂庭', r: '熱於教學；隨時可以輕鬆問問題沒有壓力', f: '家醫部 (3次推薦)', c: 'var(--m-sage)' },
+            { n: '謝依儒、林宏民', r: '熱心教學', f: '家庭醫學部', c: 'var(--m-sage)' },
+            { n: '蔡宜璇', r: '認真回饋學員問題，主動關心學習狀況', f: '家庭醫學部', c: 'var(--m-sage)' },
+            { n: '黃建榮', r: '教學熱心；教學認真', f: '骨科部 (2次推薦)', c: 'var(--m-steel)' },
+            { n: '吳宗穆', r: '教學認真', f: '骨科部', c: 'var(--m-steel)' },
+            { n: '李佳怡', r: '認真教導學弟妹', f: '眼科部', c: 'var(--m-olive)' },
+            { n: '張穎真', r: '認真教學', f: '麻醉部', c: 'var(--m-dusty-rose)' },
+            { n: '林耀聰', r: '熱心教學，關心住院醫師生活及工作上的成長', f: '麻醉部', c: 'var(--m-dusty-rose)' },
+            { n: '黃聖涵', r: '教學積極', f: '麻醉部', c: 'var(--m-dusty-rose)' },
+            { n: '劉韋呈', r: '細膩、細心、有耐心、工作認真、好榜樣', f: '麻醉部', c: 'var(--m-dusty-rose)' },
+            { n: '黃景燦', r: '教學認真', f: '復健部', c: 'var(--m-moss)' },
+            { n: '廖以莊', r: '豐富知識、樂於教學、以身作則', f: '解剖病理部', c: 'var(--m-denim)' },
+            { n: '高霈馨', r: '針對問題給予實質建議，關心同仁身心健康', f: '精神醫學部', c: 'var(--m-plum)' },
+            { n: '林健禾', r: '教學親切無距離感', f: '精神醫學部', c: 'var(--m-plum)' },
+            { n: '鄭智文', r: '教學熱忱，醫術精湛', f: '贋復科', c: 'var(--m-sand)' },
+            { n: '莊照宇', r: '用心找資料補充分享給我們延伸學習', f: '中醫部', c: 'var(--m-moss)' }
+        ];
+        const tg = document.getElementById('teacherGrid');
+        teachers.forEach(t => {
+            tg.innerHTML += `<div class="tc"><div class="name" style="color:${t.c}">${t.n}</div><div class="reason">${t.r}</div><div class="from">${t.f}</div></div>`;
+        });
+    </script>
+</body>
+
+</html>
